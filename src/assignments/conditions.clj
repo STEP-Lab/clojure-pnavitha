@@ -4,31 +4,37 @@
   "Returns the result of x/y unless y is 0. Returns nil when y is 0"
   {:level        :easy
    :use          '[when-not zero?]
-   :implemented? false}
-  [x y])
+   :implemented? true}
+  [x y]
+  (when-not (zero? y) (/ x y)))
 
 (defn informative-divide
   "Returns the result of x/y unless y is 0. Returns :infinite when y is 0"
   {:level        :easy
    :use          '[if-not zero?]
-   :implemented? false}
-  [x y])
+   :implemented? true}
+  [x y]
+  (if-not (zero? y)
+    (/ x y)
+    :infinite))
 
 (defn harishchandra
   "Only returns truthy values as themselves.
   Falsy values(false and nil) return nil"
   {:level        :easy
    :use          '[when-let]
-   :implemented? false}
-  [x])
+   :implemented? true}
+  [arg]
+  (when-let [x arg] x))
 
 (defn yudishtira
   "Only returns truthy values as themselves.
   Falsy values(false and nil) return :ashwathama"
   {:level        :easy
    :use          '[if-let]
-   :implemented? false}
-  [x])
+   :implemented? true}
+  [arg]
+  (if-let [x arg] x :ashwathama))
 
 (defn duplicate-first
   "Returns coll with the first element duplicated.
@@ -36,8 +42,10 @@
   {:level        :easy
    :use          '[when-first concat]
    :alternates   '[empty? seq? conj into]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (when-first [x coll] 
+    (concat (vector x) coll)))
 
 (defn five-point-someone
   "Returns :chetan-bhagat if y is 5.
@@ -46,8 +54,13 @@
   Otherwise it returns :universe"
   {:level        :easy
    :use          '[cond]
-   :implemented? false}
-  [x y])
+   :implemented? true}
+  [x y]
+  (cond
+    (= 5 y) :chetan-bhagat
+    (= 5 x) :satan-bhagat
+    (> x y) :greece
+    :else :universe))
 
 (defn conditions-apply
   "Given a collection of any length, returns:
@@ -58,8 +71,13 @@
   {:level        :medium
    :use          '[condp filter]
    :alternates   '[if cond]
-   :implemented? false}
-  [coll])
+   :implemented? true}
+  [coll]
+  (condp #(= %1 (filter (set %1) %2)) (filter #{1 3 :a :b :c [2 3] [4 5]} coll)
+    [1 3] :wonder-woman
+    [:a :b :c] :durga
+    [[2 3] [4 5]] :cleopatra
+    :tuntun))
 
 (defn repeat-and-truncate
   "Given coll and options to repeat and truncate
@@ -68,8 +86,11 @@
   (repeat-and-truncate (range 4) true true 6) => '(0 1 2 3 0 1)"
   {:level        :medium
    :use          '[cond->> concat take]
-   :implemented? false}
-  [coll rep? truncate? n])
+   :implemented? true}
+  [coll rep? truncate? n]
+  (cond->> coll
+    rep? (concat coll)
+    truncate? (take n)))
 
 (defn order-in-words
   "Given x, y and z, returns a vector consisting of
@@ -80,7 +101,12 @@
   {:level        :easy
    :use          '[cond-> conj]
    :implemented? false}
-  [x y z])
+  [x y z]
+  (cond-> []
+    (> x y) (conj :x-greater-than-y)
+    (> y z) (conj :y-greater-than-z)
+    (> z x) (conj :z-greater-than-x)
+    ))
 
 (defn zero-aliases
   "Given a zero-like value(0,[],(),#{},{}) should
