@@ -79,3 +79,27 @@
     (is (= [:z-greater-than-x] (order-in-words 2 3 5))))
   (testing "when x greater than y and z is greater than x"
     (is (= [:x-greater-than-y :z-greater-than-x] (order-in-words 3 2 5)))))
+
+(deftest zero-aliases-test
+  (testing "input is zero"
+    (is (= :zero (zero-aliases 0))))
+  (testing "input is empty vector"
+    (is (= :empty (zero-aliases []))))
+  (testing "input is empty unevaluated list"
+    (is (= :empty (zero-aliases ()))))
+  (testing "input is empty set"
+    (is (= :empty-set (zero-aliases #{}))))
+  (testing "input is empty map"
+    (is (= :empty-map (zero-aliases {}))))
+  (testing "input is empty string"
+    (is (= :empty-string (zero-aliases ""))))
+  (testing "input is non zero value"
+    (is (= :not-zero (zero-aliases {:a 1})))))
+
+(deftest zero-separated-palindrome-test
+  (testing "valid input"
+    (is (= [4 3 2 0 2 3 4] (zero-separated-palindrome [1 2 3]))))
+  (testing "nil input"
+    (is (= [0] (zero-separated-palindrome nil))))
+  (testing "empty input"
+    (is (= [0] (zero-separated-palindrome [])))))
